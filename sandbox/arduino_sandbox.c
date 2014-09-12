@@ -1,11 +1,6 @@
 
-// http://en.wikipedia.org/wiki/Morse_code#mediaviewer/File:International_Morse_Code.svg
-#DEFINE MORSE_UNIT         75           // in milliseconds
-#DEFINE MORSE_DOT          MORSE_UNIT   // Morse Code Dot
-#DEFINE MORSE_DASH         3*MORSE_UNIT // Morse Code Dash
-#DEFINE MORSE_PAUSE        MORSE_UNIT   // Space between parts of same letter
-#DEFINE MORSE_LETTER_SPACE 3*MORSE_UNIT // Space between letters
-#DEFINE MORSE_WORD_SPACE   7*MORSE_UNIT // Space between words
+#include morse.h
+//#include pins.h
 
 #DEFINE HORN_PIN           ## // Pin that will supply power to horn relay.
 
@@ -19,14 +14,6 @@ enum carState = {
 
 // This will hold the current state of the car
 #DEFINE CAR_STATE UNLOCKED
-
-int morseSOS[] = {
-    MORSE_DOT, MORSE_PAUSE, MORSE_DOT, MORSE_PAUSE, MORSE_DOT,
-    MORSE_LETTER_SPACE,
-    MORSE_DASH, MORSE_PAUSE, MORSE_DASH, MORSE_PAUSE, MORSE_DASH,
-    MORSE_LETTER_SPACE,
-    MORSE_DOT, MORSE_PAUSE, MORSE_DOT, MORSE_PAUSE, MORSE_DOT,
-};
 
 void soundAlarm(int * code){
     for(int i = 0; i < code.length(); i++){

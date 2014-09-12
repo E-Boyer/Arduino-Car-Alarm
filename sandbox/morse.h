@@ -1,4 +1,7 @@
-
+/*****************************************************************************
+ *  Author: Eric Boyer
+ *  Description: 
+*****************************************************************************/
 // http://en.wikipedia.org/wiki/Morse_code#mediaviewer/File:International_Morse_Code.svg
 #DEFINE MORSE_UNIT         75           // in milliseconds
 #DEFINE MORSE_DOT          MORSE_UNIT   // Morse Code Dot

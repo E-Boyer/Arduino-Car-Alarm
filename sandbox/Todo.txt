@@ -1,0 +1,12 @@
+/*****************************************************************************/
+TODO:
+CODE:
+-Initialization
+-Lock/Unlock routines
+-(Bluetooth) connection - Future
+  -Android Application
+-Tie this into ignition? (Fuel Pump)
+
+Physical
+-Simulation: Set-up circuit to simulate the functionality of a car.
+-Future: Wireless sensors? (Doors, and horn)

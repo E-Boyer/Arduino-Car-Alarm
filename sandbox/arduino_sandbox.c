@@ -1,12 +1,12 @@
-
+/*****************************************************************************
+ * Author: Eric Boyer
+ *****************************************************************************/
 #include morse.h
-//#include pins.h
-
-#DEFINE HORN_PIN           ## // Pin that will supply power to horn relay.
+#include pins.h
 
 // These are the enumerated states that the car can be in.
 enum carState = {
-    UNLOCKED,
+    UNLOCKED, // 0
     LOCKED,
     ARMED,
     ALARMING
@@ -15,52 +15,64 @@ enum carState = {
 // This will hold the current state of the car
 #DEFINE CAR_STATE UNLOCKED
 
-void soundAlarm(int * code){
+static void setCarState(carState newState){
+    CAR_STATE = newState;
+}
+
+static carState getCarState(void){
+    return CAR_STATE;
+}
+
+static void soundAlarm(int * code, int pin){
     for(int i = 0; i < code.length(); i++){
         switch(code[i]){
             case MORSE_DOT:
             case MORSE_DASH:
-                setPinHigh(HORN_PIN);
+                setPinHigh(pin);
                 break;
             
             case MORSE_PAUSE:
             case MORSE_LETTER_SPACE:
             case MORSE_WORD_SPACE:
             default:
-                setPinLow(HORN_PIN);
+                setPinLow(pin);
                 break;
         };
     }
-    setPinLow(HORN_PIN);
+    setPinLow(pin); // return to natural state (TODO: What if natural state is high)
 }
 
-while(running){
-    if((getCarState() == ARMED) && (!DOOR_BUTTON)){
-        // Do alarm stuff
-        initAlarm()
-    }
-    else if(getCarState() == ALARMING){
-        // Already alarming, what else do you want from me?
+void alarmRunner(void){
+    while(1){
+        switch(getCarState()){
+            case UNLOCKED:
+            case default:
+                // Do nothing
+                break;
+            case LOCKED:
+                break;
+            case ARMED:
+                if(!DOOR_BUTTON){
+                    playAlarm(); // Do Alarm Stuff
+                }
+                break;
+            case ALARMING:
+                // Already alarming, what else do you want from me?
+                break;
+        };
     }
 }
 
-void initAlarm(){
+void playAlarm(void){
     if(getCarState() != ALARMING){
         setCarState(ALARMING);
         
         // start a timer so that it will only sound the alarm for XX seconds
         while(timer){
-            soundAlarm(morseSOS);
+            soundAlarm(morseSOS, HORN_PIN);
+            // sleep for 2 seconds?
         }
     }
     
     return;
-}
-
-void setCarState(carState newState){
-    CAR_STATE = newState;
-}
-
-carState getCarState(){
-    return CAR_STATE;
 }

@@ -2,6 +2,10 @@
  *  Author: Eric Boyer
  *  Description: 
 *****************************************************************************/
+
+#IFNDEF MORSE_H
+#DEFINE MORSE_H
+
 // http://en.wikipedia.org/wiki/Morse_code#mediaviewer/File:International_Morse_Code.svg
 #DEFINE MORSE_UNIT         75           // in milliseconds
 #DEFINE MORSE_DOT          MORSE_UNIT   // Morse Code Dot
@@ -19,3 +23,5 @@ int morseSOS[] = {
 };
 
 // Morse Code Letters - Do I need to actually include the letters?
+
+#ENDIF

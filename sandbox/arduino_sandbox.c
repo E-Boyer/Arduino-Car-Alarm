@@ -37,7 +37,7 @@ static void soundAlarm(int * code, int pin){
             default:
                 setPinLow(pin);
                 break;
-        };
+        }
     }
     setPinLow(pin); // return to natural state (TODO: What if natural state is high)
 }
@@ -59,7 +59,7 @@ void alarmRunner(void){
             case ALARMING:
                 // Already alarming, what else do you want from me?
                 break;
-        };
+        }
     }
 }
 

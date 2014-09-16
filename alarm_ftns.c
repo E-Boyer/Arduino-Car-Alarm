@@ -1,38 +1,44 @@
 #include "alarm_ftns.h"
+#include "error.h"
 
 // This will hold the current state of the car
-#DEFINE CAR_STATE UNLOCKED
+enum carState CAR_STATE = UNLOCKED;
 
-static void setCarState(carState newState){
+// Set a new state of the car
+static void setCarState(enum carState newState){
     CAR_STATE = newState;
 }
 
-static carState getCarState(void){
+// Get the current state of the car
+static enum carState getCarState(void){
     return CAR_STATE;
 }
 
+// This function actually sends power to the specified pin in morse code form
 static void soundAlarm(int * code, int pin){
     for(int i = 0; i < code.length(); i++){
-        switch(code[i]){
-            case MORSE_DOT:
-            case MORSE_DASH:
-                setPinHigh(pin);
-                break;
-            
-            case MORSE_PAUSE:
-            case MORSE_LETTER_SPACE:
-            case MORSE_WORD_SPACE:
-            default:
-                setPinLow(pin);
-                break;
+        if(getCarState() == ALARMING){
+            switch(code[i]){
+                case MORSE_DOT:
+                case MORSE_DASH:
+                    setPinHigh(pin, "HIGH");
+                    break;
+                
+                case MORSE_PAUSE:
+                case MORSE_LETTER_SPACE:
+                case MORSE_WORD_SPACE:
+                default:
+                    setPin(pin, "LOW");
+                    break;
+            }
         }
     }
-    setPinLow(pin); // return to natural state (TODO: What if natural state is high)
+    setPinLow(pin, "LOW"); // return to natural state (TODO: What if natural state is high)
 }
 
 static void playAlarm(void){
     if(getCarState() != ALARMING){
-        setCarState(ALARMING);
+        changeCarState(ALARMING);
         
         // start a timer so that it will only sound the alarm for XX seconds
         while(timer){
@@ -67,17 +73,17 @@ void loopRunner(void){
 }
 
 /* resetAlarm
-   Desc: Reset (turn off) the alarm and set any pins back to their default state
-*/
+ * Desc: Reset (turn off) the alarm and set any pins back to their default state
+ */
 void resetAlarm(void){
-    setCarState(UNLOCKED);
+    changeCarState(UNLOCKED);
     
     // Set any other default states
     
     return;
 }
 
-int changeCarState(carState newState){
+enum returnCode changeCarState(enum carState newState){
     setCarState(newState);
     if(getCarState() == newState){
         return SUCCESS;
@@ -85,6 +91,34 @@ int changeCarState(carState newState){
     return FAILURE;
 }
 
+/* initialize
+ * Initialize the car alarm features/functions 
+ */
 void initialize(void){
     pinMode(ONBOARD_LED, OUTPUT);
+}
+
+/* unlock
+ * Function called whenever the car is unlocked 
+ */
+void unlock(void){
+    changeCarState(UNLOCKED);
+}
+
+/* lock
+ * Function called whenever the car is locked (not armed) 
+ */
+void lock(void){
+    changeCarState(LOCKED);
+#ifdef ELECTRONIC_LOCKS
+    // Send signal to car's electronic lock.
+#endif
+}
+
+/* Arm
+ * Function called whenever the car alarm is armed. 
+ */
+void arm(void){
+    lock(); // Lock the car
+    changeCarState(ARMED);
 }

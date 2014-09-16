@@ -4,17 +4,17 @@
                 Arduino Board.
 ******************************************************************************/
 
-#IFNDEF ARDUINO_IO_H
-#DEFINE ARDUINO_IO_H
+#ifndef ARDUINO_IO_H
+#define ARDUINO_IO_H
 
-#DEFINE ONBOARD_LED 13
+#define ONBOARD_LED 13
 
-typedef struct {
+struct Pin {
     bool enabled;  // Whether or not the pin is enabled
     int number;    // The number of the pin, This might now work for analog pins...
     string level;  // Pin level (HIGH and LOW)
     string ioType; // Input/Output Type (INPUT, INPUT_PULLUP-Reverses high & Low, and OUTPUT)
-} Pin
+};
 
 // This table will hold all of the pin information 
 Pin arduinoPins = [
@@ -33,4 +33,7 @@ Pin arduinoPins = [
     {false, 12, "LOW", "OUTPUT"}
 ];
 
-#ENDIF
+void setPin(int pin, string value);
+void setPin(string pin, string value);
+
+#endif

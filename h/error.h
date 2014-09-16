@@ -1,10 +1,10 @@
-#IFNDEF ERROR_H
-#DEFINE ERROR_H
+#ifndef ERROR_H
+#define ERROR_H
 
-enum returnCodes {
+enum returnCode {
     SUCCESS = 0,
     FAILURE,
     OUT_OF_RANGE
-}
+};
 
-#ENDIF
+#endif

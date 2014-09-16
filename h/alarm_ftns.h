@@ -1,5 +1,9 @@
-#IFNDEF ALARM_FTNS_H
-#DEFINE ALARM_FTNS_H
+#ifndef ALARM_FTNS_H
+#define ALARM_FTNS_H
+
+// Definition to be used if the Arduino board is integrated into the car's electronic locks
+#define ELECTRONIC_LOCKS
+
 
 void alarmRunner(void);
 void resetAlarm(void);
@@ -12,4 +16,13 @@ enum carState {
     ALARMING
 };
 
-#ENDIF
+void loopRunner(void);
+void resetAlarm(void);
+
+enum returnCode changeCarState(enum carState newState);
+void initialize(void);
+void unlock(void);
+void lock(void);
+void arm(void);
+
+#endif

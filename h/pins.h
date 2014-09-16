@@ -5,7 +5,7 @@
 #IFNDEF PINS_H
 #DEFINE PINS_H
 
-#DEFINE HORN_PIN ## // Pin that will supply power to horn relay.
+#DEFINE HORN_PIN ONBOARD_LED // Pin that will supply power to horn relay.
 
 #DEFINE FL_DOOR ## // Driver Side Front Door
 #DEFINE FR_DOOR ## // Passenger Side Front Door
